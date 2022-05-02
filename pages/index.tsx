@@ -1,18 +1,23 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import { useState } from 'react'
 
-const Home: NextPage = () => (
-  <div>
-    <Head>
-      <title>Blood findr</title>
-      <meta name='description' content='Gets help for blood needs faster.' />
-      <link rel='icon' href='/favicon.ico' />
-    </Head>
+const Home: NextPage = () => {
+  const [posts, setPosts] = useState()
 
-    <main>Main</main>
+  return (
+    <div>
+      <Head>
+        <title>Blood Findr</title>
+        <meta name='description' content='Gets help for blood needs faster.' />
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
 
-    <footer>Footer</footer>
-  </div>
-)
+      <main>Main</main>
+
+      <footer>Footer</footer>
+    </div>
+  )
+}
 
 export default Home
