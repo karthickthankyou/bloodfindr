@@ -44,60 +44,10 @@ const FooterLink = ({ text }: { text: string }) => (
 const Footer = ({ className }: { className?: string }) => (
   <footer className={` bg-gray-100 ${className}`}>
     <div className='container py-6 mx-auto'>
-      <div className='flex py-12'>
-        <div className='grid flex-grow space-y-4 text-sm text-gray-500 md:gap-2 lg:grid-cols-4 md:grid-cols-2 md:space-y-0'>
-          <ul className='block'>
-            {['About', 'Zestimates', 'Research', 'Careers', 'Help'].map(
-              (item) => (
-                <li key={item}>
-                  <FooterLink key={item} text={item} />
-                </li>
-              )
-            )}
-          </ul>
-          <ul className='block'>
-            {[
-              'Advertise',
-              'Fair Housing Guide',
-              'Terms of use',
-              'Privacy Portal',
-              'Cookie Preference',
-            ].map((item) => (
-              <li key={item}>
-                <FooterLink key={item} text={item} />
-              </li>
-            ))}
-          </ul>
-          <ul className='block'>
-            {['Blog', 'AI', 'Mobile Apps', 'Trulia', 'StreetEasy'].map(
-              (item) => (
-                <li key={item}>
-                  <FooterLink key={item} text={item} />
-                </li>
-              )
-            )}
-          </ul>
-          <ul className='block'>
-            {['HotPads', 'Out East', 'ShowingTime'].map((item) => (
-              <li key={item}>
-                <FooterLink key={item} text={item} />
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className='flex gap-3 mt-4 md:justify-end md:mt-0'>
-          {[FaYoutube, FaFacebook, FaTwitter, FaInstagramSquare].map(
-            (SocialIcon) => (
-              <Icon key={SocialIcon.toString()} IconInput={SocialIcon} />
-            )
-          )}
-        </div>
-      </div>
-      <hr className='my-4 border-gray-200' />
       <div className='justify-between text-xs md:flex'>
         <ul className='flex gap-2'>
           <li>
-            Zillow Clone,{' '}
+            Blood findr,{' '}
             <a
               className='text-[#e63746]'
               rel='noreferrer'
@@ -107,13 +57,6 @@ const Footer = ({ className }: { className?: string }) => (
               Karthick Ragavendran
             </a>
           </li>
-        </ul>
-        <ul className='mt-2 md:space-x-2 md:flex md:mt-0'>
-          {['Guides', 'Terms of Sale', 'Company details', 'Privacy Policy'].map(
-            (item) => (
-              <FooterLink key={item} text={item} />
-            )
-          )}
         </ul>
       </div>
     </div>
