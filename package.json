@@ -46,7 +46,7 @@
     "react-hook-form": "^7.30.0",
     "react-leaflet": "^4.0.0",
     "react-redux": "^8.0.1",
-    "react-spring": "^9.4.4",
+    "react-spring": "^9.4.5-beta.1",
     "redux-devtools-extension": "^2.13.9",
     "rxjs": "^7.5.5",
     "urql": "^2.2.0",

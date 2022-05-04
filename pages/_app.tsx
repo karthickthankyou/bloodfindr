@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import type { AppProps } from 'next/app'
-
 import { Provider as ReduxProvider } from 'react-redux'
 import Layout from 'src/components/templates/Layout'
 
+import Notifications from 'src/components/molecules/Notification'
 import { useDebouncedDispatch, useLongHoverDispatch } from 'src/hooks'
 
 import UrqlProvider, {
@@ -28,18 +28,6 @@ export const AppLevelHooks = () => {
   useDebouncedDispatch()
   useLongHoverDispatch()
 
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const lat = position.coords.latitude
-      const lng = position.coords.longitude
-      dispatch(setLatLng({ lat, lng }))
-      console.log('Latitude is :', lat)
-      console.log('Longitude is :', lng)
-    })
-  })
-
   return null
 }
 
@@ -59,7 +47,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <ReduxProvider store={store}>
       <UrqlProvider>
         <AppLevelHooks />
-        {/* <Notifications /> */}
+        <Notifications />
         <Component {...pageProps} />
       </UrqlProvider>
     </ReduxProvider>

@@ -10,44 +10,47 @@ import { useTransition, animated, config } from 'react-spring'
 import { NotificationType } from 'src/types'
 import { useNotification } from 'src/hooks'
 
+const getTextcolor = (type: NotificationType['type']) => {
+  switch (type) {
+    case 'success':
+      return 'text-green-800 bg-green-50/60'
+    case 'error':
+      return 'text-red-800 bg-red-50/60'
+    case 'warning':
+      return 'text-yellow-800 bg-yellow-50/60'
+    case 'info':
+      return 'text-primary-800 bg-primary-50/60'
+    default:
+      return 'black'
+  }
+}
+
 const Notifications = () => {
   useNotification()
-  const notifications = useAppSelector(selectNotifications)
+  const notifications = useAppSelector(selectNotifications) || []
   const dispatch = useAppDispatch()
 
   const markersTransitions = useTransition([...notifications] || [], {
     keys: (notification) => notification.id,
-    from: { opacity: 0, transform: 'translateX(50%)' },
-    enter: { opacity: 1, transform: 'translateX(0px)' },
-    leave: { opacity: 0, transform: 'translateX(-50%)' },
-    // update: { opacity: 1, transform: 'translateY(0px)' },
+    from: { opacity: 0, transform: 'translateY(50%)' },
+    enter: { opacity: 1, transform: 'translateY(0px)' },
+    leave: { opacity: 0, transform: 'translateY(50%)' },
     trail: 100,
-    config: config.wobbly,
+    config: config.gentle,
   })
 
-  const getTextcolor = (type: NotificationType['type']) => {
-    switch (type) {
-      case 'success':
-        return 'text-green-800 bg-green-50/60'
-      case 'error':
-        return 'text-red-800 bg-red-50/60'
-      case 'warning':
-        return 'text-yellow-800 bg-yellow-50/60'
-      case 'info':
-        return 'text-primary-800 bg-primary-50/60'
-      default:
-        return 'black'
-    }
-  }
+  // console.log('markersTransitions ', markersTransitions)
+
   return (
     <div
       data-chromatic='ignore'
-      className='fixed bottom-0 z-10 flex flex-col items-center w-full p-2 space-y-3'
+      style={{ zIndex: '3000' }}
+      className='fixed bottom-0 flex flex-col items-center w-full px-2 py-1 space-y-3'
     >
       {markersTransitions((style, marker) => (
         <animated.div className='flex shadow-xl' key={marker.id} style={style}>
           <div
-            className={`px-6 py-4 border border-white rounded-b rounded-l backdrop-blur-sm backdrop-filter ${getTextcolor(
+            className={`px-3 py-2 border border-white bg-white/60 rounded-b rounded-l ${getTextcolor(
               marker.type
             )}`}
           >

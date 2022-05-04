@@ -18,7 +18,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>Blood Findr</title>
+        <title>Blood Findr | Control room for all blood requirements</title>
         <meta
           name='description'
           content="Control panel for world's blood needs"
