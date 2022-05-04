@@ -18,7 +18,6 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { placeTypeZoom } from '../static'
 import { store, store$ } from '..'
-import { setMapSearchOptions } from '../map/mapSlice'
 
 export type AddressSearchType = {
   address: string
@@ -28,39 +27,6 @@ export type AddressSearchType = {
   latitude: number
   longitude: number
 }
-
-export const searchPlaces$ = store$.pipe(
-  map((state) => state.map.searchText),
-  distinctUntilChanged(),
-  filter((text) => text.length > 0),
-  debounceTime(500),
-  tap(() => store.dispatch(setMapSearchOptions({ data: [], fetching: true }))),
-
-  switchMap((searchText) =>
-    searchText
-      ? fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchText}.json?country=us&fuzzyMatch=true&access_token=pk.eyJ1IjoiaWFta2FydGhpY2siLCJhIjoiY2t4b3AwNjZ0MGtkczJub2VqMDZ6OWNrYSJ9.-FMKkHQHvHUeDEvxz2RJWQ`
-        ).then((response) => response.json())
-      : of([])
-  ),
-  map((value) => {
-    try {
-      return value.features.length > 0
-        ? value.features.map((features: any) => ({
-            displayName: features.place_name,
-            longitude: features.geometry.coordinates[0],
-            latitude: features.geometry.coordinates[1],
-            zoom: placeTypeZoom[features.place_type[0] as PlaceTypesType] || 6,
-          }))
-        : []
-    } catch (error) {
-      return []
-    }
-  }),
-  map((value) => {
-    store.dispatch(setMapSearchOptions({ data: value, fetching: false }))
-  })
-)
 
 export const useSearchAddress = ({
   searchText,
@@ -157,33 +123,3 @@ export const useSearchAddress = ({
 
   return { data, loading, error } as const
 }
-
-export const searchAddress$ = store$.pipe(
-  map((state) => state.map.searchText),
-  distinctUntilChanged(),
-  filter((text) => text.length > 0),
-  debounceTime(500),
-  tap(() => store.dispatch(setMapSearchOptions({ data: [], fetching: true }))),
-  switchMap((searchText) =>
-    searchText
-      ? fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchText}.json?country=us&fuzzyMatch=true&access_token=pk.eyJ1IjoiaWFta2FydGhpY2siLCJhIjoiY2t4b3AwNjZ0MGtkczJub2VqMDZ6OWNrYSJ9.-FMKkHQHvHUeDEvxz2RJWQ`
-        ).then((response) => response.json())
-      : of([])
-  ),
-  map((value): MapSearch[] =>
-    value.features.length > 0
-      ? value.features.map((features: any) => ({
-          displayName: features.place_name,
-          longitude: features.geometry.coordinates[0],
-          latitude: features.geometry.coordinates[1],
-          zoom: placeTypeZoom[features.place_type[0] as PlaceTypesType] || 6,
-        }))
-      : []
-  ),
-  map((value) => {
-    store.dispatch(setMapSearchOptions({ data: value, fetching: false }))
-  }),
-  retry(2),
-  catchError(() => of(null))
-)

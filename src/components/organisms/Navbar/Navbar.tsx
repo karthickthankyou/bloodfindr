@@ -12,13 +12,14 @@ const Navbar = () => {
   const router = useRouter()
   const url = router.pathname
   const navCls = useMemo(
-    () => (pathWithFixedNav.includes(url) ? 'fixed' : 'relative'),
+    () => (pathWithFixedNav.includes(url) ? 'sticky top-0' : 'relative'),
     [url]
   )
 
   return (
     <nav
-      className={`${navCls} z-30 flex items-center justify-center w-full h-16 bg-white/90 border-b-2 border-white/80 top`}
+      style={{ zIndex: '1000' }}
+      className={`${navCls} z-50 flex items-center justify-center w-full h-16 border-b-2 border-white/80 top`}
     >
       <div className='relative w-full'>
         <Container className='flex items-center w-full h-6'>

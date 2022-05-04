@@ -3,7 +3,6 @@ import type { AppProps } from 'next/app'
 
 import { Provider as ReduxProvider } from 'react-redux'
 import Layout from 'src/components/templates/Layout'
-import Notifications from 'src/components/molecules/Notification'
 
 import { useDebouncedDispatch, useLongHoverDispatch } from 'src/hooks'
 
@@ -59,11 +58,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <ReduxProvider store={store}>
       <UrqlProvider>
-        <Layout>
-          <AppLevelHooks />
-          {/* <Notifications /> */}
-          <Component {...pageProps} />
-        </Layout>
+        <AppLevelHooks />
+        {/* <Notifications /> */}
+        <Component {...pageProps} />
       </UrqlProvider>
     </ReduxProvider>
   )
