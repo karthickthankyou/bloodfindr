@@ -1,33 +1,52 @@
 import { useRouter } from 'next/router'
-import { useMemo } from 'react'
+import { Dispatch, SetStateAction, useMemo, useState } from 'react'
 import Link from 'src/components/atoms/Link'
 import Brand from 'src/components/atoms/Brand'
-import Container from 'src/components/atoms/Container/Container'
+
+import MenuIcon from '@heroicons/react/outline/MenuIcon'
+import Sidebar from 'src/components/molecules/Sidebar'
+import Button from 'src/components/atoms/Button/Button'
 
 export interface INavbarProps {}
 
-const pathWithFixedNav: string[] = []
+const pathWithFixedNav: string[] = ['/']
+
+const NavSidebar = ({
+  open,
+  setOpen,
+}: {
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
+}) => (
+  <Sidebar open={open} setOpen={setOpen}>
+    <Sidebar.Header setOpen={setOpen} />
+    <Sidebar.Body>
+      <Link href='/new'>Add new blood requirement</Link>
+    </Sidebar.Body>
+    <Sidebar.Footer>Footer</Sidebar.Footer>
+  </Sidebar>
+)
 
 const Navbar = () => {
   const router = useRouter()
+  const [open, setOpen] = useState(false)
   const url = router.pathname
   const navCls = useMemo(
-    () => (pathWithFixedNav.includes(url) ? 'sticky top-0' : 'relative'),
+    () => (pathWithFixedNav.includes(url) ? 'fixed ' : 'relative'),
     [url]
   )
 
   return (
     <nav
-      style={{ zIndex: '1000' }}
-      className={`${navCls} z-50 flex items-center justify-center w-full h-16 border-b-2 border-white/80 top`}
+      className={`${navCls} z-1200 flex items-center justify-between w-full px-2 h-14`}
     >
-      <div className='relative w-full'>
-        <Container className='flex items-center w-full h-6'>
-          <Link href='/' className='text-xl font-semibold text-primary-600 '>
-            <Brand />
-          </Link>
-        </Container>
-      </div>
+      <NavSidebar open={open} setOpen={setOpen} />
+      <Link href='/' className='text-xl font-semibold text-primary-600 '>
+        <Brand />
+      </Link>
+      <button type='button' onClick={() => setOpen((state) => !state)}>
+        <MenuIcon className='stroke-1 w-7 h-7' />
+      </button>
     </nav>
   )
 }

@@ -2,6 +2,10 @@ export interface IBrandProps {
   className?: string
 }
 
-const Brand = () => <div>Blood findr</div>
+const Brand = () => (
+  <div className='px-2 py-1 bg-white/60'>
+    Blood find<span className='italic'>r</span>
+  </div>
+)
 
 export default Brand

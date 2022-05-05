@@ -46,9 +46,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <ReduxProvider store={store}>
       <UrqlProvider>
-        <AppLevelHooks />
-        <Notifications />
-        <Component {...pageProps} />
+        <Layout>
+          <AppLevelHooks />
+          <Notifications />
+          <Component {...pageProps} />
+        </Layout>
       </UrqlProvider>
     </ReduxProvider>
   )

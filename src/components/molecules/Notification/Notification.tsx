@@ -44,8 +44,7 @@ const Notifications = () => {
   return (
     <div
       data-chromatic='ignore'
-      style={{ zIndex: '3000' }}
-      className='fixed bottom-0 flex flex-col items-center w-full px-2 py-1 space-y-3'
+      className='fixed bottom-0 flex flex-col items-center w-full px-2 py-1 space-y-3 z-1100'
     >
       {markersTransitions((style, marker) => (
         <animated.div className='flex shadow-xl' key={marker.id} style={style}>

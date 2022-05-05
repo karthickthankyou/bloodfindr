@@ -26,8 +26,7 @@ const MapPanel = ({
   children,
 }: IMapPanelProps) => (
   <div
-    style={{ zIndex: '401' }}
-    className={`absolute overflow-hidden flex flex-col items-center m-2 shadow-2xl shadow-black/30 border border-white rounded-lg bg-white/60 backdrop-filter backdrop-blur-sm ${positionClasses[position]} ${className}`}
+    className={`absolute z-1200 overflow-hidden flex flex-col items-center m-2 shadow-2xl shadow-black/30 border border-white rounded-lg bg-white/60 backdrop-filter backdrop-blur-sm ${positionClasses[position]} ${className}`}
   >
     {children}
   </div>
