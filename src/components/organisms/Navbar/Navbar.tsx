@@ -6,6 +6,9 @@ import Brand from 'src/components/atoms/Brand'
 import MenuIcon from '@heroicons/react/outline/MenuIcon'
 import Sidebar from 'src/components/molecules/Sidebar'
 import Button from 'src/components/atoms/Button/Button'
+import { useAppSelector } from 'src/store'
+import { selectDisplayName, selectUid } from 'src/store/user/userSlice'
+import Initials from 'src/components/molecules/Initials'
 
 export interface INavbarProps {}
 
@@ -36,6 +39,9 @@ const Navbar = () => {
     [url]
   )
 
+  const uid = useAppSelector(selectUid)
+  const displayName = useAppSelector(selectDisplayName)
+
   return (
     <nav
       className={`${navCls} z-1200 flex items-center justify-between w-full px-2 h-14`}
@@ -44,9 +50,18 @@ const Navbar = () => {
       <Link href='/' className='text-xl font-semibold text-primary-600 '>
         <Brand />
       </Link>
-      <button type='button' onClick={() => setOpen((state) => !state)}>
-        <MenuIcon className='stroke-1 w-7 h-7' />
-      </button>
+      <div className='flex items-center gap-2'>
+        {uid ? (
+          <Link href='/profile'>
+            <Initials name={displayName || ''} />
+          </Link>
+        ) : (
+          <Link href='/login'>Login</Link>
+        )}
+        <button type='button' onClick={() => setOpen((state) => !state)}>
+          <MenuIcon className='stroke-1 w-7 h-7' />
+        </button>
+      </div>
     </nav>
   )
 }

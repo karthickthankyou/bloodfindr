@@ -51,7 +51,7 @@ const sizes: { [key in ButtonSizes]: string } = {
 const Button = ({
   size = 'md',
   variant = 'contained',
-  color = 'primary',
+  color = 'black',
   fullWidth = false,
   disabled = false,
   children,
@@ -71,7 +71,7 @@ const Button = ({
       // eslint-disable-next-line react/button-has-type
       type={type}
       disabled={disabled || isLoading}
-      className={`rounded-full relative font-medium ${sizeCls} ${fwCls} ${variantCls} ${disCls}  ${className} `}
+      className={`rounded-lg relative font-medium ${sizeCls} ${fwCls} ${variantCls} ${disCls}  ${className} `}
       {...props}
     >
       {isLoading ? (

@@ -94,7 +94,7 @@ const NewPostTemplate = () => {
                   }}
                   className='col-span-2 space-y-2'
                 >
-                  <div className='grid w-full grid-cols-4 gap-3 my-2 sm:grid-cols-8 md:grid-cols-4 lg:grid-cols-8'>
+                  <div className='flex flex-wrap justify-center w-full gap-3 my-2'>
                     {['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'].map(
                       (item) => (
                         <RadioGroup.Option
@@ -104,9 +104,9 @@ const NewPostTemplate = () => {
                         >
                           {({ checked }) => (
                             <div
-                              className={`aspect-square border-2 transition-all flex items-center justify-center rounded-full   ${
+                              className={`w-16 h-16 border-2 transition-all flex items-center justify-center rounded-full   ${
                                 checked
-                                  ? ' border-red-500 shadow-lg font-bold text-xl bg-white shadow-red/50'
+                                  ? ' border-black shadow-lg font-bold text-xl bg-white shadow-red/50'
                                   : ' shadow-black/20  bg-gray-50'
                               }`}
                             >
@@ -138,7 +138,7 @@ const NewPostTemplate = () => {
                   checked={value || false}
                   onChange={onChange}
                   className={`${
-                    value ? 'bg-red-600' : 'bg-gray-200'
+                    value ? 'bg-black' : 'bg-gray-200'
                   } relative inline-flex items-center h-8 shadow-inner rounded-full w-16`}
                 >
                   <span
@@ -153,7 +153,7 @@ const NewPostTemplate = () => {
         </div>
         <div className='space-y-8'>
           <Label title='Location' error={errors.lat || errors.lng}>
-            <div className='max-w-md mt-4 ml-1 space-y-4 text-gray-800'>
+            <div className='max-w-md mt-4 space-y-4 text-gray-800'>
               <div>
                 <button type='button'>Click here.</button> If you are currently
                 in the location of the blood requirement.

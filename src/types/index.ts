@@ -20,7 +20,7 @@ export type AsyncData<T> = {
   data: T
   fulfilled?: boolean
   loading?: boolean
-  error?: boolean
+  error?: string | null
 }
 
 export type AsyncUser = AsyncData<User>

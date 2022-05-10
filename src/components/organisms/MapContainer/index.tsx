@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic'
+import { useState } from 'react'
 import { LatLngExpression } from 'leaflet'
 
 import { MapContainer, Marker, Popup, ScaleControl } from 'react-leaflet'
@@ -22,6 +23,9 @@ const MapContainerComponent = ({
   className = 'h-screen',
 }: IMapContainerProps) => {
   const center: LatLngExpression = [13.0827, 80.27]
+  const [mapLocation, setMapLocation] = useState(() => center)
+
+  console.log(mapLocation)
 
   return (
     <MapContainer
@@ -32,7 +36,7 @@ const MapContainerComponent = ({
       zoomControl={false}
       whenReady={() => console.log('map ready')}
     >
-      <MapListener />
+      <MapListener setMapLocation={setMapLocation} />
       <Map>
         <ScaleControl position='bottomleft' />
 
@@ -48,8 +52,8 @@ const MapContainerComponent = ({
           </NavButton>
         </MapPanel>
 
-        <Marker draggable position={[13.0827, 80.27]}>
-          <Popup>
+        <Marker position={mapLocation}>
+          <Popup className='shadow-xl'>
             A pretty CSS3 popup.
             <br /> Easily customizable.
           </Popup>

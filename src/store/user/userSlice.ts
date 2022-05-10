@@ -31,7 +31,7 @@ export const initialState: UserSliceType = {
   },
   fulfilled: true,
   loading: false,
-  error: false,
+  error: null,
 }
 
 // An utility function that reducer redundant code in extra reducers.
@@ -40,16 +40,19 @@ const setStatus =
   ({
     fulfilled = false,
     loading = false,
-    error = false,
+    error = null,
   }: {
     fulfilled?: boolean
     loading?: boolean
-    error?: boolean
+    error?: string | null
   }) =>
-  (state: WritableDraft<UserSliceType>) => {
+  (state: WritableDraft<UserSliceType>, action: any) => {
+    const errorMessage =
+      action?.error?.code.split('/')[1].replaceAll('-', ' ') || null
+    console.log('error message: ', errorMessage)
     state.fulfilled = fulfilled
     state.loading = loading
-    state.error = error
+    state.error = errorMessage
   }
 
 export const userSlice = createSlice({
@@ -60,7 +63,7 @@ export const userSlice = createSlice({
       state.data.user = action.payload
       state.fulfilled = true
       state.loading = false
-      state.error = false
+      state.error = null
     },
     setLatLng: (
       state,
@@ -75,7 +78,7 @@ export const userSlice = createSlice({
       state.data.claims = action.payload
       state.fulfilled = true
       state.loading = false
-      state.error = false
+      state.error = null
     },
 
     resetUser: () => initialState,
@@ -83,23 +86,23 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(signup.pending, setStatus({ loading: true }))
     builder.addCase(signup.fulfilled, setStatus({ fulfilled: true }))
-    builder.addCase(signup.rejected, setStatus({ error: true }))
+    builder.addCase(signup.rejected, setStatus({}))
 
     builder.addCase(signin.pending, setStatus({ loading: true }))
     builder.addCase(signin.fulfilled, setStatus({ fulfilled: true }))
-    builder.addCase(signin.rejected, setStatus({ error: true }))
+    builder.addCase(signin.rejected, setStatus({}))
 
     builder.addCase(signout.pending, setStatus({ loading: true }))
     builder.addCase(signout.fulfilled, setStatus({ fulfilled: true }))
-    builder.addCase(signout.rejected, setStatus({ error: true }))
+    builder.addCase(signout.rejected, setStatus({}))
 
     builder.addCase(forgotPassword.pending, setStatus({ loading: true }))
     builder.addCase(forgotPassword.fulfilled, setStatus({ fulfilled: true }))
-    builder.addCase(forgotPassword.rejected, setStatus({ error: true }))
+    builder.addCase(forgotPassword.rejected, setStatus({}))
 
     builder.addCase(googleSignin.pending, setStatus({ loading: true }))
     builder.addCase(googleSignin.fulfilled, setStatus({ fulfilled: true }))
-    builder.addCase(googleSignin.rejected, setStatus({ error: true }))
+    builder.addCase(googleSignin.rejected, setStatus({}))
   },
 })
 export const { setUser, setClaims, resetUser, setLatLng } = userSlice.actions

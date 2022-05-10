@@ -7,7 +7,9 @@ export default {
   component: MapListener,
 } as ComponentMeta<typeof MapListener>
 
-const Template: ComponentStory<typeof MapListener> = () => <MapListener />
+const Template: ComponentStory<typeof MapListener> = (args) => (
+  <MapListener {...args} />
+)
 
 export const Primary = Template.bind({})
 Primary.args = {}
