@@ -9,7 +9,7 @@ interface ILayoutProps {
   children: ReactElement | ReactElement[]
 }
 
-const NoNavUrls = ['/signup', '/login']
+const NoNavUrls = ['/signup', '/login', '/passwordreset']
 
 const Layout = ({ children }: ILayoutProps) => {
   const url = useRouter().pathname

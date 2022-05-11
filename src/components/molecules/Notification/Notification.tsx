@@ -49,7 +49,7 @@ const Notifications = () => {
       {markersTransitions((style, marker) => (
         <animated.div className='flex shadow-xl' key={marker.id} style={style}>
           <div
-            className={`px-3 py-2 border border-white bg-white/60 rounded-b rounded-l ${getTextcolor(
+            className={`px-3 py-2 first-letter:uppercase border border-white bg-white/60 rounded-b rounded-l ${getTextcolor(
               marker.type
             )}`}
           >

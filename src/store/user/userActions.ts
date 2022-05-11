@@ -7,6 +7,8 @@ import {
   signOut as firebaseSignout,
   sendPasswordResetEmail,
   GoogleAuthProvider,
+  FacebookAuthProvider,
+  TwitterAuthProvider,
   signInWithPopup,
 } from 'firebase/auth'
 import { getFunctions, httpsCallable } from 'firebase/functions'
@@ -49,6 +51,19 @@ export const forgotPassword = createAsyncThunk(
 export const googleSignin = createAsyncThunk('user/googleSignin', async () => {
   await signInWithPopup(auth, new GoogleAuthProvider())
 })
+
+export const facebookSignin = createAsyncThunk(
+  'user/facebookSignin',
+  async () => {
+    await signInWithPopup(auth, new FacebookAuthProvider())
+  }
+)
+export const twitterSignin = createAsyncThunk(
+  'user/twitterSignin',
+  async () => {
+    await signInWithPopup(auth, new TwitterAuthProvider())
+  }
+)
 
 export const resetUserTask = createAsyncThunk('user/reset', async () => {
   const resetTestUser = httpsCallable(getFunctions(), 'resetTestUser')

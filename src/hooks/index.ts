@@ -271,7 +271,7 @@ export const useAuthPageResponses = () => {
     if (error)
       notify({
         type: 'error',
-        message: 'Authentication failed. Please try again.',
+        message: error,
       })
   }, [error])
 

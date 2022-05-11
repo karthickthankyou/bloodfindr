@@ -1,20 +1,21 @@
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
-import SignUp from 'src/components/templates/Signup'
+import PasswordReset from 'src/components/templates/PasswordReset/PasswordReset'
 import { useAuthPageResponses, useRedirectLoggedInUsers } from 'src/hooks'
 
-const Signup: NextPage = () => {
+const LoginPage: NextPage = () => {
   useRedirectLoggedInUsers()
   useAuthPageResponses()
+
   return (
     <div>
       <NextSeo
-        title='Create account | Zillow clone | Karthick Ragavendran'
+        title='Blood findr - Reset password'
         description='This is the amazing sample page. A short description goes here which says what goes here.'
       />
-      <SignUp />
+      <PasswordReset />
     </div>
   )
 }
 
-export default Signup
+export default LoginPage
