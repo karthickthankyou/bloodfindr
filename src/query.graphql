@@ -42,3 +42,9 @@ query GetPosts(
     id
   }
 }
+
+query GetUsernames($username: String) {
+  users(where: { username: { _eq: $username } }) {
+    username
+  }
+}

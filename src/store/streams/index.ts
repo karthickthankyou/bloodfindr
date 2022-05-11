@@ -4,20 +4,16 @@ import {
   debounceTime,
   distinctUntilChanged,
   EMPTY,
-  filter,
   map,
   of,
-  retry,
   Subject,
   switchMap,
   tap,
 } from 'rxjs'
 
-import { MapSearch, PlaceTypesType } from 'src/types'
 import { useEffect, useMemo, useState } from 'react'
-
-import { placeTypeZoom } from '../static'
-import { store, store$ } from '..'
+import { client } from 'src/util/urql'
+import { GetUsernamesDocument } from 'src/generated/graphql'
 
 export type AddressSearchType = {
   address: string
@@ -26,6 +22,54 @@ export type AddressSearchType = {
   postcode: string
   latitude: number
   longitude: number
+}
+
+export const useCheckUsername = ({ username }: { username: string }) => {
+  const checkoutUsername$ = useMemo(() => new Subject<{ text: string }>(), [])
+  const [data, setData] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<any>(null)
+
+  useEffect(() => {
+    const subscription = checkoutUsername$
+      .pipe(
+        tap(() => {
+          setLoading(true)
+          setError(null)
+          console.log('Loading...')
+        }),
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap(({ text }) =>
+          text
+            ? client
+                .query(GetUsernamesDocument, {
+                  username: text,
+                })
+                .toPromise()
+                .then((response) => {
+                  console.log('Response: ', response.data.users)
+                  setData(response.data.users)
+                })
+            : of([])
+        ),
+        tap(() => {
+          setLoading(false)
+        })
+      )
+      .subscribe((v) => {
+        console.log('Value: ', v)
+      })
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [checkoutUsername$, username])
+
+  useEffect(() => {
+    checkoutUsername$.next({ text: username })
+  }, [checkoutUsername$, username])
+
+  return { data, loading, error } as const
 }
 
 export const useSearchAddress = ({

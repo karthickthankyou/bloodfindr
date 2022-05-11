@@ -1,9 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { FaFacebook } from '@react-icons/all-files/fa/FaFacebook'
-import { FaTwitter } from '@react-icons/all-files/fa/FaTwitter'
-import { FaGoogle } from '@react-icons/all-files/fa/FaGoogle'
-
-import { googleSignin, signup } from 'src/store/user'
+import { signup } from 'src/store/user'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -13,6 +9,8 @@ import Link from 'src/components/atoms/Link/Link'
 import Button from 'src/components/atoms/Button/Button'
 import AuthWrapper from 'src/components/organisms/AuthWrapper/AuthWrapper'
 import AuthProviders from 'src/components/organisms/AuthProviders/AuthProviders'
+import { useCheckUsername } from 'src/store/streams'
+import { useEffect } from 'react'
 
 const signupFormSchema = yup
   .object({
@@ -24,9 +22,10 @@ const signupFormSchema = yup
       .string()
       .required('Password is required')
       .min(6, 'Minimum 6 characters needed.'),
-    name: yup.string().required('Name is required'),
+    username: yup.string().required('Username is required'),
+    name: yup.string(),
+    usernameAvailable: yup.string().required('Username is not available'),
     rememberMe: yup.boolean(),
-    isLandlord: yup.boolean(),
   })
   .required()
 
@@ -39,19 +38,43 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<SignupFormSchema>({
     resolver: yupResolver(signupFormSchema),
     defaultValues: {
       email: '',
       password: '',
+      username: '',
+      usernameAvailable: '',
       name: '',
       rememberMe: false,
-      isLandlord: false,
     },
   })
 
+  console.log('Errors: ', errors)
+
+  const { username } = watch()
+
   const { loading } = useAppSelector((state) => state.user)
+  const {
+    data: usernameAvailable,
+    loading: usernameChecking,
+    error,
+  } = useCheckUsername({ username })
+
+  useEffect(() => {
+    if (usernameAvailable.length !== 0) {
+      setError('usernameAvailable', { message: 'Username is not available' })
+      setValue('usernameAvailable', '')
+    } else {
+      clearErrors('usernameAvailable')
+      setValue('usernameAvailable', 'OK')
+    }
+  }, [clearErrors, setError, setValue, usernameAvailable])
 
   // eslint-disable-next-line no-console
   const onSubmit = handleSubmit((data) => {
@@ -87,12 +110,14 @@ const SignUp = () => {
         </div>
         <div className='space-y-1'>
           <label className='block text-sm text-gray-700'>
-            Display name
+            Username
             <input
               className='block w-full px-3 py-2 mt-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none sm:text-sm'
-              {...register('name')}
+              {...register('username')}
             />
-            <FormError error={errors.name} />
+            <FormError error={errors.username} />
+            <FormError error={errors.usernameAvailable} />
+            {usernameChecking && <div>Checking...</div>}
           </label>
         </div>
 
