@@ -33,8 +33,8 @@ const variantColor = {
   },
   text: {
     primary: 'text-primary ',
-    white: 'text-black',
-    black: 'text-white',
+    white: 'text-white',
+    black: 'text-black',
     success: 'text-green ',
     error: 'text-red ',
   },

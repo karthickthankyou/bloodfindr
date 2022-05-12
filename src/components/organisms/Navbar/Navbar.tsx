@@ -9,10 +9,12 @@ import Button from 'src/components/atoms/Button/Button'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { selectUid } from 'src/store/user/userSlice'
 import { signout } from 'src/store/user'
+import Initials from 'src/components/molecules/Initials'
 
 export interface INavbarProps {}
 
 const pathWithFixedNav: string[] = ['/']
+const pathWithContainerNav: string[] = ['/donor/[uid]']
 
 const NavSidebar = ({
   open,
@@ -50,18 +52,35 @@ const Navbar = () => {
     () => (pathWithFixedNav.includes(url) ? 'fixed ' : 'relative'),
     [url]
   )
+  const containerCls = useMemo(
+    () =>
+      pathWithContainerNav.includes(url) ? 'container mx-auto' : 'px-2 py-1',
+    [url]
+  )
+
+  const uid = useAppSelector(selectUid)
 
   return (
     <nav
-      className={`${navCls} z-1200 flex items-center justify-between w-full px-2 h-14`}
+      className={`${navCls} ${containerCls} z-1200  flex items-center justify-between w-full  h-14`}
     >
       <NavSidebar open={open} setOpen={setOpen} />
       <Link href='/' className='text-xl font-semibold text-primary-600 '>
         <Brand />
       </Link>
-      <button type='button' onClick={() => setOpen((state) => !state)}>
-        <MenuIcon className='stroke-1 w-7 h-7' />
-      </button>
+      <div className='flex items-center gap-2'>
+        {uid && (
+          <Link href={`/donor/${uid}`}>
+            <Initials
+              className='stroke-1 w-7 h-7'
+              name='Karthick Ragavendran'
+            />
+          </Link>
+        )}
+        <button type='button' onClick={() => setOpen((state) => !state)}>
+          <MenuIcon className='stroke-1 w-7 h-7' />
+        </button>
+      </div>
     </nav>
   )
 }

@@ -48,3 +48,22 @@ query GetUsernames($username: String) {
     username
   }
 }
+
+query GetUser($uid: String!) {
+  users_by_pk(uid: $uid) {
+    about
+    created_at
+    group
+    last_seen
+    name
+    uid
+    updated_at
+    username
+  }
+}
+
+mutation InsertUserId($uid: String!) {
+  insert_users_one(object: { uid: $uid }) {
+    uid
+  }
+}

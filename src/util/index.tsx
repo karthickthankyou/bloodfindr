@@ -108,3 +108,26 @@ export const sampleMyHome = {
 
 export const randomNumber = ({ min = 0, max }: { min?: number; max: number }) =>
   Math.floor(Math.random() * (max - min + 1) + min)
+
+export const dateDifference = (date: string) => {
+  const date1 = new Date(date)
+  const date2 = new Date()
+
+  const diffSeconds = Math.round((date2.getTime() - date1.getTime()) / 1000)
+  const diffMinutes = Math.round(diffSeconds / 60)
+  const diffHours = Math.round(diffMinutes / 60)
+  const diffDays = Math.round(diffHours / 24)
+  const diffYears = Math.round(diffDays / 364)
+
+  const stringify = (num: number, type: string) =>
+    `${num} ${type}${num > 1 ? 's' : ''} ago`
+
+  if (diffYears) return stringify(diffYears, 'year')
+
+  if (diffDays) return stringify(diffDays, 'day')
+  if (diffHours) return stringify(diffHours, 'hour')
+  if (diffMinutes) return stringify(diffMinutes, 'minute')
+  if (diffSeconds) return stringify(diffSeconds, 'second')
+
+  return ''
+}

@@ -35,10 +35,10 @@ const Initials = ({
   name,
   className,
   size = 'md',
-  color = 'luxury',
+  color = 'black',
 }: IInitialsProps) => (
   <div
-    className={`flex items-center justify-center  rounded-full ${className} ${colorClasses[color]} ${sizeClasses[size]}`}
+    className={`flex items-center h-full aspect-square text-sm justify-center rounded-full ${className} ${colorClasses[color]}`}
   >
     {getInitials(name)}
   </div>

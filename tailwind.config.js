@@ -2,19 +2,19 @@ const colors = require('tailwindcss/colors')
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 // #880808
-const primaryPallete = {
+const bloodPallete = {
   DEFAULT: 'hsl(0, 89%, 28%)',
-  25: 'hsl(207, 99%, 98%)',
-  50: 'hsl(207, 99%, 90%)',
-  100: 'hsl(207, 99%, 80%)',
-  200: 'hsl(207, 99%, 70%)',
-  300: 'hsl(207, 99%, 60%)',
-  400: 'hsl(207, 99%, 44%)',
+  25: 'hsl(0, 89%, 98%)',
+  50: 'hsl(0, 89%, 90%)',
+  100: 'hsl(0, 89%, 80%)',
+  200: 'hsl(0, 89%, 70%)',
+  300: 'hsl(0, 89%, 60%)',
+  400: 'hsl(0, 89%, 44%)',
   500: 'hsl(0, 89%, 28%)',
-  600: 'hsl(207, 99%, 20%)',
-  700: 'hsl(207, 99%, 14%)',
-  800: 'hsl(207, 99%, 08%)',
-  900: 'hsl(207, 99%, 04%)',
+  600: 'hsl(0, 89%, 20%)',
+  700: 'hsl(0, 89%, 14%)',
+  800: 'hsl(0, 89%, 08%)',
+  900: 'hsl(0, 89%, 04%)',
 }
 
 module.exports = {
@@ -25,7 +25,7 @@ module.exports = {
       black: colors.black,
       white: colors.white,
       gray: colors.gray,
-      primary: primaryPallete,
+      blood: bloodPallete,
       accent: colors.black,
     },
     extend: {
@@ -39,6 +39,10 @@ module.exports = {
       },
       screens: {
         xs: '400px',
+      },
+      minHeight: {
+        screen50: '50vh',
+        screen80: '80vh',
       },
       animation: {
         'spin-reverse': 'reverse-spin 1s linear infinite',

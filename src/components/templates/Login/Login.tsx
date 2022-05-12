@@ -1,10 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { FaFacebook } from '@react-icons/all-files/fa/FaFacebook'
-import { FaTwitter } from '@react-icons/all-files/fa/FaTwitter'
-import { FaGoogle } from '@react-icons/all-files/fa/FaGoogle'
 
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { googleSignin, signin } from 'src/store/user'
+import { signin } from 'src/store/user'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
@@ -88,9 +85,7 @@ const Login = () => {
             <span className='ml-2 select-none'>Remember me</span>
           </label>
           <div className='text-sm'>
-            <Link href='/passwordreset' className='font-semibold'>
-              Forgot your password?
-            </Link>
+            <Link href='/passwordreset'>Forgot your password?</Link>
           </div>
         </div>
         <div>

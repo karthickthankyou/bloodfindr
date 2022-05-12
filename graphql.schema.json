@@ -1868,6 +1868,152 @@
         "possibleTypes": null
       },
       {
+        "kind": "ENUM",
+        "name": "blood_groups_enum",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "AB_NEGATIVE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "AB_POSITIVE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "A_NEGATIVE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "A_POSITIVE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "B_NEGATIVE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "B_POSITIVE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "O_NEGATIVE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "O_POSITIVE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "blood_groups_enum_comparison_exp",
+        "description": "Boolean expression to compare columns of type \"blood_groups_enum\". All fields are combined with logical 'AND'.",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "_eq",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "blood_groups_enum",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_in",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "blood_groups_enum",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_is_null",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_neq",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "blood_groups_enum",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_nin",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "blood_groups_enum",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "INPUT_OBJECT",
         "name": "blood_groups_insert_input",
         "description": "input type for inserting data into table \"blood_groups\"",
@@ -4921,8 +5067,8 @@
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "ENUM",
+                "name": "blood_groups_enum",
                 "ofType": null
               }
             },
@@ -5420,7 +5566,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "String_comparison_exp",
+              "name": "blood_groups_enum_comparison_exp",
               "ofType": null
             },
             "defaultValue": null,
@@ -5626,8 +5772,8 @@
             "name": "group",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "ENUM",
+              "name": "blood_groups_enum",
               "ofType": null
             },
             "defaultValue": null,
@@ -5753,18 +5899,6 @@
             "deprecationReason": null
           },
           {
-            "name": "group",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "id",
             "description": null,
             "args": [],
@@ -5878,18 +6012,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "timestamptz",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "group",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
@@ -6392,8 +6514,8 @@
             "name": "group",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "ENUM",
+              "name": "blood_groups_enum",
               "ofType": null
             },
             "defaultValue": null,
@@ -9842,13 +9964,9 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -9874,13 +9992,9 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "ENUM",
+              "name": "blood_groups_enum",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -10181,7 +10295,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "String_comparison_exp",
+              "name": "blood_groups_enum_comparison_exp",
               "ofType": null
             },
             "defaultValue": null,
@@ -10310,8 +10424,8 @@
             "name": "group",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "ENUM",
+              "name": "blood_groups_enum",
               "ofType": null
             },
             "defaultValue": null,
@@ -10413,18 +10527,6 @@
             "deprecationReason": null
           },
           {
-            "name": "group",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "last_seen",
             "description": null,
             "args": [],
@@ -10514,18 +10616,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "timestamptz",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "group",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
@@ -10938,8 +11028,8 @@
             "name": "group",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "ENUM",
+              "name": "blood_groups_enum",
               "ofType": null
             },
             "defaultValue": null,

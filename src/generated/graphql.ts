@@ -135,6 +135,26 @@ export enum Blood_Groups_Constraint {
   BloodGroupsPkey = 'blood_groups_pkey',
 }
 
+export enum Blood_Groups_Enum {
+  AbNegative = 'AB_NEGATIVE',
+  AbPositive = 'AB_POSITIVE',
+  ANegative = 'A_NEGATIVE',
+  APositive = 'A_POSITIVE',
+  BNegative = 'B_NEGATIVE',
+  BPositive = 'B_POSITIVE',
+  ONegative = 'O_NEGATIVE',
+  OPositive = 'O_POSITIVE',
+}
+
+/** Boolean expression to compare columns of type "blood_groups_enum". All fields are combined with logical 'AND'. */
+export type Blood_Groups_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Blood_Groups_Enum>
+  _in?: InputMaybe<Array<Blood_Groups_Enum>>
+  _is_null?: InputMaybe<Scalars['Boolean']>
+  _neq?: InputMaybe<Blood_Groups_Enum>
+  _nin?: InputMaybe<Array<Blood_Groups_Enum>>
+}
+
 /** input type for inserting data into table "blood_groups" */
 export type Blood_Groups_Insert_Input = {
   type?: InputMaybe<Scalars['String']>
@@ -682,7 +702,7 @@ export type Posts = {
   address: Scalars['String']
   created_at: Scalars['timestamptz']
   emergency?: Maybe<Scalars['Boolean']>
-  group: Scalars['String']
+  group: Blood_Groups_Enum
   id: Scalars['Int']
   lat: Scalars['Float']
   lng: Scalars['Float']
@@ -737,7 +757,7 @@ export type Posts_Bool_Exp = {
   address?: InputMaybe<String_Comparison_Exp>
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>
   emergency?: InputMaybe<Boolean_Comparison_Exp>
-  group?: InputMaybe<String_Comparison_Exp>
+  group?: InputMaybe<Blood_Groups_Enum_Comparison_Exp>
   id?: InputMaybe<Int_Comparison_Exp>
   lat?: InputMaybe<Float_Comparison_Exp>
   lng?: InputMaybe<Float_Comparison_Exp>
@@ -765,7 +785,7 @@ export type Posts_Insert_Input = {
   address?: InputMaybe<Scalars['String']>
   created_at?: InputMaybe<Scalars['timestamptz']>
   emergency?: InputMaybe<Scalars['Boolean']>
-  group?: InputMaybe<Scalars['String']>
+  group?: InputMaybe<Blood_Groups_Enum>
   id?: InputMaybe<Scalars['Int']>
   lat?: InputMaybe<Scalars['Float']>
   lng?: InputMaybe<Scalars['Float']>
@@ -780,7 +800,6 @@ export type Posts_Max_Fields = {
   __typename?: 'posts_max_fields'
   address?: Maybe<Scalars['String']>
   created_at?: Maybe<Scalars['timestamptz']>
-  group?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['Int']>
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
@@ -795,7 +814,6 @@ export type Posts_Min_Fields = {
   __typename?: 'posts_min_fields'
   address?: Maybe<Scalars['String']>
   created_at?: Maybe<Scalars['timestamptz']>
-  group?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['Int']>
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
@@ -872,7 +890,7 @@ export type Posts_Set_Input = {
   address?: InputMaybe<Scalars['String']>
   created_at?: InputMaybe<Scalars['timestamptz']>
   emergency?: InputMaybe<Scalars['Boolean']>
-  group?: InputMaybe<Scalars['String']>
+  group?: InputMaybe<Blood_Groups_Enum>
   id?: InputMaybe<Scalars['Int']>
   lat?: InputMaybe<Scalars['Float']>
   lng?: InputMaybe<Scalars['Float']>
@@ -1349,9 +1367,9 @@ export type Timestamptz_Comparison_Exp = {
 /** User information */
 export type Users = {
   __typename?: 'users'
-  about: Scalars['String']
+  about?: Maybe<Scalars['String']>
   created_at: Scalars['timestamptz']
-  group: Scalars['String']
+  group?: Maybe<Blood_Groups_Enum>
   last_seen: Scalars['timestamptz']
   name?: Maybe<Scalars['String']>
   uid: Scalars['String']
@@ -1387,7 +1405,7 @@ export type Users_Bool_Exp = {
   _or?: InputMaybe<Array<Users_Bool_Exp>>
   about?: InputMaybe<String_Comparison_Exp>
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>
-  group?: InputMaybe<String_Comparison_Exp>
+  group?: InputMaybe<Blood_Groups_Enum_Comparison_Exp>
   last_seen?: InputMaybe<Timestamptz_Comparison_Exp>
   name?: InputMaybe<String_Comparison_Exp>
   uid?: InputMaybe<String_Comparison_Exp>
@@ -1407,7 +1425,7 @@ export enum Users_Constraint {
 export type Users_Insert_Input = {
   about?: InputMaybe<Scalars['String']>
   created_at?: InputMaybe<Scalars['timestamptz']>
-  group?: InputMaybe<Scalars['String']>
+  group?: InputMaybe<Blood_Groups_Enum>
   last_seen?: InputMaybe<Scalars['timestamptz']>
   name?: InputMaybe<Scalars['String']>
   uid?: InputMaybe<Scalars['String']>
@@ -1420,7 +1438,6 @@ export type Users_Max_Fields = {
   __typename?: 'users_max_fields'
   about?: Maybe<Scalars['String']>
   created_at?: Maybe<Scalars['timestamptz']>
-  group?: Maybe<Scalars['String']>
   last_seen?: Maybe<Scalars['timestamptz']>
   name?: Maybe<Scalars['String']>
   uid?: Maybe<Scalars['String']>
@@ -1433,7 +1450,6 @@ export type Users_Min_Fields = {
   __typename?: 'users_min_fields'
   about?: Maybe<Scalars['String']>
   created_at?: Maybe<Scalars['timestamptz']>
-  group?: Maybe<Scalars['String']>
   last_seen?: Maybe<Scalars['timestamptz']>
   name?: Maybe<Scalars['String']>
   uid?: Maybe<Scalars['String']>
@@ -1498,7 +1514,7 @@ export enum Users_Select_Column {
 export type Users_Set_Input = {
   about?: InputMaybe<Scalars['String']>
   created_at?: InputMaybe<Scalars['timestamptz']>
-  group?: InputMaybe<Scalars['String']>
+  group?: InputMaybe<Blood_Groups_Enum>
   last_seen?: InputMaybe<Scalars['timestamptz']>
   name?: InputMaybe<Scalars['String']>
   uid?: InputMaybe<Scalars['String']>
@@ -1544,7 +1560,7 @@ export type GetPostByIdQuery = {
     address: string
     created_at: any
     emergency?: boolean | null
-    group: string
+    group: Blood_Groups_Enum
     id: number
     lat: number
     lng: number
@@ -1585,12 +1601,44 @@ export type GetUsernamesQuery = {
   users: Array<{ __typename?: 'users'; username?: string | null }>
 }
 
+export type GetUserQueryVariables = Exact<{
+  uid: Scalars['String']
+}>
+
+export type GetUserQuery = {
+  __typename?: 'query_root'
+  users_by_pk?: {
+    __typename?: 'users'
+    about?: string | null
+    created_at: any
+    group?: Blood_Groups_Enum | null
+    last_seen: any
+    name?: string | null
+    uid: string
+    updated_at: any
+    username?: string | null
+  } | null
+}
+
+export type InsertUserIdMutationVariables = Exact<{
+  uid: Scalars['String']
+}>
+
+export type InsertUserIdMutation = {
+  __typename?: 'mutation_root'
+  insert_users_one?: { __typename?: 'users'; uid: string } | null
+}
+
 export const namedOperations = {
   Query: {
     MyQuery: 'MyQuery',
     GetPostById: 'GetPostById',
     GetPosts: 'GetPosts',
     GetUsernames: 'GetUsernames',
+    GetUser: 'GetUser',
+  },
+  Mutation: {
+    InsertUserId: 'InsertUserId',
   },
 }
 
@@ -1678,4 +1726,37 @@ export function useGetUsernamesQuery(
     query: GetUsernamesDocument,
     ...options,
   })
+}
+export const GetUserDocument = /*#__PURE__*/ gql`
+  query GetUser($uid: String!) {
+    users_by_pk(uid: $uid) {
+      about
+      created_at
+      group
+      last_seen
+      name
+      uid
+      updated_at
+      username
+    }
+  }
+`
+
+export function useGetUserQuery(
+  options: Omit<Urql.UseQueryArgs<GetUserQueryVariables>, 'query'>
+) {
+  return Urql.useQuery<GetUserQuery>({ query: GetUserDocument, ...options })
+}
+export const InsertUserIdDocument = /*#__PURE__*/ gql`
+  mutation InsertUserId($uid: String!) {
+    insert_users_one(object: { uid: $uid }) {
+      uid
+    }
+  }
+`
+
+export function useInsertUserIdMutation() {
+  return Urql.useMutation<InsertUserIdMutation, InsertUserIdMutationVariables>(
+    InsertUserIdDocument
+  )
 }

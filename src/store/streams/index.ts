@@ -9,6 +9,7 @@ import {
   Subject,
   switchMap,
   tap,
+  filter,
 } from 'rxjs'
 
 import { useEffect, useMemo, useState } from 'react'
@@ -24,8 +25,15 @@ export type AddressSearchType = {
   longitude: number
 }
 
-export const useCheckUsername = ({ username }: { username: string }) => {
-  const checkoutUsername$ = useMemo(() => new Subject<{ text: string }>(), [])
+export const useCheckUsername = ({
+  username,
+}: {
+  username: string | undefined
+}) => {
+  const checkoutUsername$ = useMemo(
+    () => new Subject<{ text: typeof username }>(),
+    []
+  )
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<any>(null)
@@ -36,8 +44,8 @@ export const useCheckUsername = ({ username }: { username: string }) => {
         tap(() => {
           setLoading(true)
           setError(null)
-          console.log('Loading...')
         }),
+        filter((text) => text !== undefined),
         debounceTime(400),
         distinctUntilChanged(),
         switchMap(({ text }) =>
@@ -48,7 +56,6 @@ export const useCheckUsername = ({ username }: { username: string }) => {
                 })
                 .toPromise()
                 .then((response) => {
-                  console.log('Response: ', response.data.users)
                   setData(response.data.users)
                 })
             : of([])
@@ -57,9 +64,7 @@ export const useCheckUsername = ({ username }: { username: string }) => {
           setLoading(false)
         })
       )
-      .subscribe((v) => {
-        console.log('Value: ', v)
-      })
+      .subscribe()
     return () => {
       subscription.unsubscribe()
     }

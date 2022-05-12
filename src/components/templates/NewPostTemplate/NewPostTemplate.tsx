@@ -1,11 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Controller, FieldError, useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import Input from 'src/components/atoms/HtmlInput'
 import Label from 'src/components/atoms/HtmlLabel'
 import TextArea from 'src/components/atoms/HtmlTextArea'
-import HtmlSelect from 'src/components/atoms/HtmlSelect/HtmlSelect'
 import { RadioGroup, Switch } from '@headlessui/react'
 import dynamic from 'next/dynamic'
 import Button from 'src/components/atoms/Button'
@@ -89,7 +87,6 @@ const NewPostTemplate = () => {
                 <RadioGroup
                   value={value}
                   onChange={(v) => {
-                    console.log('Value ', v)
                     onChange(v)
                   }}
                   className='col-span-2 space-y-2'

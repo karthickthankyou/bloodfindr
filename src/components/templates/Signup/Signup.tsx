@@ -55,8 +55,6 @@ const SignUp = () => {
     },
   })
 
-  console.log('Errors: ', errors)
-
   const { username } = watch()
 
   const { loading } = useAppSelector((state) => state.user)
