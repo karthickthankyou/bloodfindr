@@ -1,5 +1,4 @@
 const colors = require('tailwindcss/colors')
-const defaultTheme = require('tailwindcss/defaultTheme')
 
 // #880808
 const bloodPallete = {
@@ -28,6 +27,7 @@ module.exports = {
       blood: bloodPallete,
       accent: colors.black,
     },
+
     extend: {
       zIndex: {
         1000: '1000',
@@ -37,8 +37,15 @@ module.exports = {
         1400: '1400',
         1500: '1500',
       },
-      screens: {
-        xs: '400px',
+      spacing: {
+        112: '28rem',
+        128: '32rem',
+        144: '36rem',
+        160: '40rem',
+        176: '44rem',
+        192: '48rem',
+        208: '52rem',
+        '90p': '90%',
       },
       minHeight: {
         screen50: '50vh',

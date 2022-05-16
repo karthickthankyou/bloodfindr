@@ -10,7 +10,7 @@ const HtmlLabel = React.forwardRef<
     error?: FieldError | undefined
   } & HTMLProps<HTMLLabelElement>
 >(({ children, title, error, className }, ref) => (
-  <label ref={ref} className={`block  ${className}`}>
+  <label ref={ref} className={`block select-none ${className}`}>
     <div className='mb-1 ml-1'>{title}</div>
     {children}
 

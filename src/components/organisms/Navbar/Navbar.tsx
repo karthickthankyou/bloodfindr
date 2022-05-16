@@ -14,7 +14,7 @@ import Initials from 'src/components/molecules/Initials'
 export interface INavbarProps {}
 
 const pathWithFixedNav: string[] = ['/']
-const pathWithContainerNav: string[] = ['/donor/[uid]']
+const pathWithContainerNav: string[] = ['/donor/[uid]', '/new']
 
 const NavSidebar = ({
   open,
@@ -30,6 +30,8 @@ const NavSidebar = ({
       <Sidebar.Header setOpen={setOpen} />
       <Sidebar.Body>
         <Link href='/new'>Add new blood requirement</Link>
+        <Link href='/donor/sdf'>Sample donor page</Link>
+        <Link href='/profile'>Sample profile</Link>
       </Sidebar.Body>
       <Sidebar.Footer>
         {uid ? (
@@ -69,13 +71,15 @@ const Navbar = () => {
         <Brand />
       </Link>
       <div className='flex items-center gap-2'>
-        {uid && (
+        {uid ? (
           <Link href={`/donor/${uid}`}>
             <Initials
               className='stroke-1 w-7 h-7'
               name='Karthick Ragavendran'
             />
           </Link>
+        ) : (
+          <Link href='/login'>Login</Link>
         )}
         <button type='button' onClick={() => setOpen((state) => !state)}>
           <MenuIcon className='stroke-1 w-7 h-7' />
