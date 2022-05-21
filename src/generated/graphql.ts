@@ -707,7 +707,7 @@ export type Posts = {
   lat: Scalars['Float']
   lng: Scalars['Float']
   message: Scalars['String']
-  status: Scalars['String']
+  status?: Maybe<Scalars['String']>
   uid: Scalars['String']
   updated_at: Scalars['timestamptz']
 }
@@ -1565,7 +1565,7 @@ export type GetPostByIdQuery = {
     lat: number
     lng: number
     message: string
-    status: string
+    status?: string | null
     uid: string
     updated_at: any
   } | null
@@ -1629,6 +1629,41 @@ export type InsertUserIdMutation = {
   insert_users_one?: { __typename?: 'users'; uid: string } | null
 }
 
+export type InsertPostMutationVariables = Exact<{
+  object: Posts_Insert_Input
+}>
+
+export type InsertPostMutation = {
+  __typename?: 'mutation_root'
+  insert_posts_one?: {
+    __typename?: 'posts'
+    address: string
+    created_at: any
+    emergency?: boolean | null
+    group: Blood_Groups_Enum
+    id: number
+    lat: number
+    lng: number
+    status?: string | null
+    message: string
+    uid: string
+    updated_at: any
+  } | null
+}
+
+export type SearchPostsByLocationQueryVariables = Exact<{
+  distinct_on?: InputMaybe<Array<Posts_Select_Column> | Posts_Select_Column>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Posts_Order_By> | Posts_Order_By>
+  where?: InputMaybe<Posts_Bool_Exp>
+}>
+
+export type SearchPostsByLocationQuery = {
+  __typename?: 'query_root'
+  posts: Array<{ __typename?: 'posts'; id: number; lat: number; lng: number }>
+}
+
 export const namedOperations = {
   Query: {
     MyQuery: 'MyQuery',
@@ -1636,9 +1671,11 @@ export const namedOperations = {
     GetPosts: 'GetPosts',
     GetUsernames: 'GetUsernames',
     GetUser: 'GetUser',
+    SearchPostsByLocation: 'SearchPostsByLocation',
   },
   Mutation: {
     InsertUserId: 'InsertUserId',
+    InsertPost: 'InsertPost',
   },
 }
 
@@ -1759,4 +1796,60 @@ export function useInsertUserIdMutation() {
   return Urql.useMutation<InsertUserIdMutation, InsertUserIdMutationVariables>(
     InsertUserIdDocument
   )
+}
+export const InsertPostDocument = /*#__PURE__*/ gql`
+  mutation InsertPost($object: posts_insert_input!) {
+    insert_posts_one(object: $object) {
+      address
+      created_at
+      emergency
+      group
+      id
+      lat
+      lng
+      status
+      message
+      uid
+      updated_at
+    }
+  }
+`
+
+export function useInsertPostMutation() {
+  return Urql.useMutation<InsertPostMutation, InsertPostMutationVariables>(
+    InsertPostDocument
+  )
+}
+export const SearchPostsByLocationDocument = /*#__PURE__*/ gql`
+  query SearchPostsByLocation(
+    $distinct_on: [posts_select_column!]
+    $limit: Int
+    $offset: Int
+    $order_by: [posts_order_by!]
+    $where: posts_bool_exp
+  ) {
+    posts(
+      distinct_on: $distinct_on
+      limit: $limit
+      offset: $offset
+      order_by: $order_by
+      where: $where
+    ) {
+      id
+      lat
+      lng
+    }
+  }
+`
+
+export function useSearchPostsByLocationQuery(
+  options?: Omit<
+    Urql.UseQueryArgs<SearchPostsByLocationQueryVariables>,
+    'query'
+  >
+) {
+  return Urql.useQuery<SearchPostsByLocationQuery>({
+    query: SearchPostsByLocationDocument,
+    ...options,
+  })
 }

@@ -1,12 +1,20 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { useMap } from 'react-leaflet'
 import { notify } from 'src/hooks'
+import Tooltip, { ITooltipProps } from 'src/components/atoms/Tooltip/Tooltip'
 
-export interface INavButtonProps {
-  type: 'IN' | 'OUT' | 'USER_LOCATION'
+export type INavButtonProps = {
+  type?: 'IN' | 'OUT' | 'USER_LOCATION'
+  fn?: Function
   children: React.ReactNode
-}
+} & ITooltipProps
 
-const NavButton = ({ type, children }: INavButtonProps) => {
+const NavButton = ({
+  type,
+  fn,
+  children,
+  ...tooltipProps
+}: INavButtonProps) => {
   const map = useMap()
   const fns = {
     IN: () => map.zoomIn(),
@@ -25,13 +33,15 @@ const NavButton = ({ type, children }: INavButtonProps) => {
     },
   }
   return (
-    <button
-      type='button'
-      className='flex items-center justify-center w-8 h-8 transition-colors hover:bg-white'
-      onClick={() => fns[type]()}
-    >
-      {children}
-    </button>
+    <Tooltip {...tooltipProps}>
+      <button
+        type='button'
+        className='flex items-center justify-center w-8 h-8 transition-colors hover:bg-white'
+        onClick={() => (type ? fns[type]() : fn && fn())}
+      >
+        {children}
+      </button>
+    </Tooltip>
   )
 }
 

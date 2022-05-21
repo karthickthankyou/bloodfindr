@@ -39,8 +39,6 @@ const Notifications = () => {
     config: config.gentle,
   })
 
-  // console.log('markersTransitions ', markersTransitions)
-
   return (
     <div
       data-chromatic='ignore'

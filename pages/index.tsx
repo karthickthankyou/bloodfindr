@@ -6,7 +6,7 @@ import ExclamationCircleIcon from '@heroicons/react/outline/ExclamationIcon'
 import dynamic from 'next/dynamic'
 
 const MapContainer = dynamic(
-  () => import('src/components/organisms/MapContainer'),
+  () => import('src/components/organisms/HomeMapContainer'),
   {
     ssr: false,
   }

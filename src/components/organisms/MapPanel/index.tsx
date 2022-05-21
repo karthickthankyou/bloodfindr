@@ -1,8 +1,8 @@
 import React from 'react'
-import { Pane } from 'react-leaflet'
 
 export interface IMapPanelProps {
   position?: 'tl' | 'tc' | 'tr' | 'cl' | 'cc' | 'cr' | 'bl' | 'bc' | 'br'
+  leafletPosition?: 'bottomleft' | 'bottomright' | 'topleft' | 'topright'
   className?: string
   children: React.ReactNode
 }
@@ -19,17 +19,36 @@ const positionClasses = {
   br: 'bottom-0 right-0',
 }
 
+const POSITION_CLASSES = {
+  bottomleft: 'leaflet-bottom leaflet-left',
+  bottomright: 'leaflet-bottom leaflet-right',
+  topleft: 'leaflet-top leaflet-left',
+  topright: 'leaflet-top leaflet-right',
+}
+
 const MapPanel = ({
   position = 'cc',
+  leafletPosition = 'topright',
   className = '',
-
   children,
-}: IMapPanelProps) => (
-  <div
-    className={`absolute z-1200 overflow-hidden flex flex-col items-center m-2 shadow-2xl shadow-black/30 border border-white rounded-lg bg-white/60 backdrop-filter backdrop-blur-sm ${positionClasses[position]} ${className}`}
-  >
-    {children}
-  </div>
-)
+}: IMapPanelProps) => {
+  const positionClass =
+    (leafletPosition && POSITION_CLASSES[leafletPosition]) ||
+    POSITION_CLASSES.topright
+  return (
+    <div className={positionClass}>
+      <div className='m-2 border-0 shadow-2xl leaflet-control'>
+        <div
+          className={`flex flex-col items-center  shadow-2xl shadow-black/30 border border-white rounded-lg bg-white/60 backdrop-filter backdrop-blur-sm  ${className}`}
+        >
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default MapPanel
+
+// Map control
+// https://stackoverflow.com/questions/48291870/how-to-add-custom-ui-to-leaflet-map

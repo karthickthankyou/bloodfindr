@@ -1,15 +1,24 @@
+import { LatLngTuple } from 'leaflet'
+import { Dispatch, SetStateAction } from 'react'
 import { useMap, useMapEvents } from 'react-leaflet'
 
 export interface IMapListenerProps {}
 
-const MapListener = () => {
+const MapListener = ({
+  setpos,
+}: {
+  setpos: Dispatch<SetStateAction<LatLngTuple>>
+}) => {
   const map = useMap()
+
   const mapEvents = useMapEvents({
     dragend: () => {
-      console.log(map.getBounds())
+      const { lat, lng } = map.getCenter()
+      setpos([lat, lng])
     },
     zoomend: () => {
-      console.log(map.getBounds())
+      const { lat, lng } = map.getCenter()
+      setpos([lat, lng])
     },
   })
   return null

@@ -18,6 +18,7 @@ const bloodPallete = {
 
 module.exports = {
   content: ['./pages/**/*.{js,ts,jsx,tsx}', './src/**/*.{js,ts,jsx,tsx}'],
+  important: true,
   theme: {
     colors: {
       transparent: colors.transparent,

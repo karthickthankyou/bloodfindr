@@ -27,8 +27,6 @@ const ProductPage = () => {
   const lastSeen = dateDifference(data?.users_by_pk?.last_seen)
   const about = data?.users_by_pk?.about
 
-  console.log('donor data ', data)
-
   return (
     <>
       <NextSeo

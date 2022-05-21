@@ -1,79 +1,48 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Controller, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
+import { Controller, useFormContext } from 'react-hook-form'
+
 import Label from 'src/components/atoms/HtmlLabel'
 import TextArea from 'src/components/atoms/HtmlTextArea'
 import { RadioGroup, Switch } from '@headlessui/react'
 import dynamic from 'next/dynamic'
 import Button from 'src/components/atoms/Button'
+import { selectUid } from 'src/store/user/userSlice'
 import FormSection, {
   FormSectionTitle,
 } from 'src/components/organisms/FormSection/FormSection'
-import { notify } from 'src/hooks'
-
-const MapContainer = dynamic(
-  () => import('src/components/organisms/MapContainer'),
-  {
-    ssr: false,
-  }
-)
+import { useInsertPostMutation } from 'src/generated/graphql'
+import { useAppSelector } from 'src/store'
+import { BLOOD_GROUPS_EXPAND } from 'src/util/static'
+import { LatLngTuple } from 'leaflet'
 
 export interface INewPostTemplateProps {}
 
-export const newRequirementSchema = yup
-  .object({
-    address: yup.string().required('enter the address.'),
-    zipcode: yup.string().required('enter the zipcode.'),
-    group: yup.string().required('enter the blood group.'),
-    message: yup.string().required('enter the message.'),
-    emergency: yup.boolean(),
-    verified: yup.boolean().required('verify the details you entered.'),
-    acceptTerms: yup.boolean().required('accept the terms and conditions.'),
-    lat: yup
-      .number()
-      .min(-90, 'lat must be -90 to 90')
-      .max(90, `lat must be -90 to 90`)
-      .required('location is not set.'),
-    lng: yup
-      .number()
-      .min(-180, 'lng must be -180 to 180')
-      .max(180, `lng must be -180 to 180`)
-      .required('location is not set.'),
-  })
-  .required()
-
-export type NewPostSchema = yup.InferType<typeof newRequirementSchema>
+const MapComponent = dynamic(() => import('./Map'), {
+  ssr: false,
+})
+const defaultPosition = [51.505, -0.09] as LatLngTuple
 
 const NewPostTemplate = () => {
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
     control,
-    setError,
-    clearErrors,
     formState: { errors },
-  } = useForm<NewPostSchema>({
-    resolver: yupResolver(newRequirementSchema),
-    defaultValues: {
-      address: undefined,
-      message: '',
-      zipcode: undefined,
-      lat: undefined,
-      lng: undefined,
-      group: undefined,
-      emergency: true,
-    },
-  })
+  } = useFormContext()
+
+  const [, addNewRequirement] = useInsertPostMutation()
+  const uid = useAppSelector(selectUid)
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log('Data ', data)
+    const { acceptTerms, verified, group, ...rem } = data
+    const updatedGroup =
+      BLOOD_GROUPS_EXPAND[group as keyof typeof BLOOD_GROUPS_EXPAND]
+    addNewRequirement({ object: { ...rem, group: updatedGroup, uid } })
   })
+
   return (
     <form onSubmit={onSubmit} className='mb-8 '>
-      <h1 className='mt-12 text-2xl'>Enter blood requirement details</h1>
+      <h1 className='mt-12 text-xl'>Blood requirement form</h1>
 
       <div className='mt-12 space-y-12'>
         <FormSection
@@ -173,6 +142,13 @@ const NewPostTemplate = () => {
         >
           <Label
             className='col-span-2'
+            title='Location'
+            error={errors.lat || errors.lng}
+          >
+            <MapComponent lat={defaultPosition[0]} lng={defaultPosition[1]} />
+          </Label>
+          <Label
+            className='col-span-2'
             title='Full address'
             error={errors.address}
           >
@@ -181,43 +157,6 @@ const NewPostTemplate = () => {
               placeholder='Enter the full address.'
               {...register('address')}
             />
-          </Label>
-          <Label
-            className='col-span-2'
-            title='Location'
-            error={errors.lat || errors.lng}
-          >
-            <div className='max-w-md mt-4 ml-1 space-y-4 text-gray-800'>
-              <div>
-                <div>
-                  If you are currently in the location of the blood requirement.
-                </div>
-                <button
-                  className='px-3 py-1 mt-2 text-black border-2 border-black rounded-full shadow-lg'
-                  type='button'
-                  onClick={() => {
-                    navigator.geolocation.getCurrentPosition(
-                      (position) => {
-                        const lat = position.coords.latitude
-                        const lng = position.coords.longitude
-                        console.log(lat, lng)
-                      },
-                      (err) => {
-                        notify({ message: err.message })
-                      }
-                    )
-                  }}
-                >
-                  Get current location
-                </button>
-              </div>
-              <div>Or</div>
-              <div>
-                Pick the exact location of the blood requirement by dragging the
-                marker in the below map.
-              </div>
-            </div>
-            <MapContainer className='h-128' />
           </Label>
         </FormSection>
         <FormSection

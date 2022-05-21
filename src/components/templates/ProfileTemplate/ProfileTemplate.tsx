@@ -1,7 +1,6 @@
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useAppDispatch } from 'src/store'
 import { useCheckUsername } from 'src/store/streams'
 import { useEffect } from 'react'
 import { UseQueryState } from 'urql'
@@ -42,11 +41,7 @@ const profileFormSchema = yup.object({
 type ProfileFormSchema = yup.InferType<typeof profileFormSchema>
 
 const ProfileTemplate = ({ user }: IProfileTemplateProps) => {
-  console.log('User in profile page: ', user)
-  const dispatch = useAppDispatch()
   const {
-    register,
-    handleSubmit,
     watch,
     setValue,
     setError,

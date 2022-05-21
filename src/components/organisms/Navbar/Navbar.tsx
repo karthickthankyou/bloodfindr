@@ -5,7 +5,6 @@ import Brand from 'src/components/atoms/Brand'
 
 import MenuIcon from '@heroicons/react/outline/MenuIcon'
 import Sidebar from 'src/components/molecules/Sidebar'
-import Button from 'src/components/atoms/Button/Button'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { selectUid } from 'src/store/user/userSlice'
 import { signout } from 'src/store/user'
@@ -29,7 +28,7 @@ const NavSidebar = ({
     <Sidebar open={open} setOpen={setOpen}>
       <Sidebar.Header setOpen={setOpen} />
       <Sidebar.Body>
-        <Link href='/new'>Add new blood requirement</Link>
+        {uid ? <Link href='/new'>Add new blood requirement</Link> : null}
         <Link href='/donor/sdf'>Sample donor page</Link>
         <Link href='/profile'>Sample profile</Link>
       </Sidebar.Body>

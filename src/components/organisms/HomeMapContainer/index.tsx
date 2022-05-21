@@ -1,14 +1,15 @@
 import dynamic from 'next/dynamic'
 import { LatLngExpression } from 'leaflet'
-
-import { MapContainer, Marker, Popup, ScaleControl } from 'react-leaflet'
+import { MapContainer, ScaleControl } from 'react-leaflet'
 
 import PlusIcon from '@heroicons/react/solid/PlusIcon'
 import MinusIcon from '@heroicons/react/solid/MinusIcon'
 import LocationMarkerIcon from '@heroicons/react/solid/LocationMarkerIcon'
 import MapListener from 'src/components/organisms/MapListener'
 import NavButton from 'src/components/templates/NavButton/NavButton'
+import { useSearchPostsByLocationQuery } from 'src/generated/graphql'
 import MapPanel from '../MapPanel'
+import RoutineMachine from './Directions'
 
 const Map = dynamic(() => import('src/components/organisms/Map'), {
   ssr: false,
@@ -16,6 +17,13 @@ const Map = dynamic(() => import('src/components/organisms/Map'), {
 
 export interface IMapContainerProps {
   className?: string
+}
+
+export const useFetchHomesMap = () => {
+  const [{ data, fetching, error, stale }] = useSearchPostsByLocationQuery({
+    variables: { where: {} },
+  })
+  return { data, fetching, error, stale }
 }
 
 const MapContainerComponent = ({
@@ -30,30 +38,25 @@ const MapContainerComponent = ({
       className={`w-full ${className}`}
       scrollWheelZoom={false}
       zoomControl={false}
-      whenReady={() => console.log('map ready')}
+      doubleClickZoom={false}
     >
-      <MapListener />
+      <MapListener setpos={() => {}} />
+      <RoutineMachine />
+
       <Map>
         <ScaleControl position='bottomleft' />
 
         <MapPanel position='cr' className='divide-y divide-white'>
-          <NavButton type='IN'>
+          <NavButton type='IN' title='Zoom in'>
             <PlusIcon className='w-4 h-4' />
           </NavButton>
-          <NavButton type='OUT'>
+          <NavButton type='OUT' title='Zoom out'>
             <MinusIcon className='w-4 h-4' />
           </NavButton>
-          <NavButton type='USER_LOCATION'>
+          <NavButton type='USER_LOCATION' title='Go to current location'>
             <LocationMarkerIcon className='w-4 h-4' />
           </NavButton>
         </MapPanel>
-
-        <Marker draggable position={[13.0827, 80.27]}>
-          <Popup>
-            A pretty CSS3 popup.
-            <br /> Easily customizable.
-          </Popup>
-        </Marker>
       </Map>
     </MapContainer>
   )
