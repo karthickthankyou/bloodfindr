@@ -26,6 +26,7 @@ module.exports = {
       white: colors.white,
       gray: colors.gray,
       blood: bloodPallete,
+      primary: bloodPallete,
       accent: colors.black,
     },
 

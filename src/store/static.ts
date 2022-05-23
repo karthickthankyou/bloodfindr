@@ -179,9 +179,9 @@ export const showCities = (zoom: number) => zoom <= 8.4999 && zoom >= 5.5
 export const showStates = (zoom: number) => zoom < 5.499
 
 export const initialViewport = {
-  latitude: 39.0119,
-  longitude: -98.4842,
-  zoom: 3,
+  latitude: 12,
+  longitude: 80,
+  zoom: 8,
 }
 
 export const ZOOM_HOMES = 9

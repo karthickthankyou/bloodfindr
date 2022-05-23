@@ -5,11 +5,15 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import userReducer from './user'
 import utilsReducer from './utils/utilsStore'
+import mapReducer from './map/mapSlice'
+import postReducer from './post/postSlice'
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     utils: utilsReducer,
+    map: mapReducer,
+    post: postReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

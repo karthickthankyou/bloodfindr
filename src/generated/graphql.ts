@@ -1661,7 +1661,39 @@ export type SearchPostsByLocationQueryVariables = Exact<{
 
 export type SearchPostsByLocationQuery = {
   __typename?: 'query_root'
-  posts: Array<{ __typename?: 'posts'; id: number; lat: number; lng: number }>
+  posts_aggregate: {
+    __typename?: 'posts_aggregate'
+    aggregate?: { __typename?: 'posts_aggregate_fields'; count: number } | null
+  }
+  posts: Array<{
+    __typename?: 'posts'
+    id: number
+    lat: number
+    lng: number
+    group: Blood_Groups_Enum
+  }>
+}
+
+export type SearchPostsByLocationDetailedQueryVariables = Exact<{
+  distinct_on?: InputMaybe<Array<Posts_Select_Column> | Posts_Select_Column>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Posts_Order_By> | Posts_Order_By>
+  where?: InputMaybe<Posts_Bool_Exp>
+}>
+
+export type SearchPostsByLocationDetailedQuery = {
+  __typename?: 'query_root'
+  posts: Array<{
+    __typename?: 'posts'
+    id: number
+    address: string
+    group: Blood_Groups_Enum
+    message: string
+    emergency?: boolean | null
+    uid: string
+    status?: string | null
+  }>
 }
 
 export const namedOperations = {
@@ -1672,6 +1704,7 @@ export const namedOperations = {
     GetUsernames: 'GetUsernames',
     GetUser: 'GetUser',
     SearchPostsByLocation: 'SearchPostsByLocation',
+    SearchPostsByLocationDetailed: 'SearchPostsByLocationDetailed',
   },
   Mutation: {
     InsertUserId: 'InsertUserId',
@@ -1828,6 +1861,15 @@ export const SearchPostsByLocationDocument = /*#__PURE__*/ gql`
     $order_by: [posts_order_by!]
     $where: posts_bool_exp
   ) {
+    posts_aggregate(
+      distinct_on: $distinct_on
+      order_by: $order_by
+      where: $where
+    ) {
+      aggregate {
+        count
+      }
+    }
     posts(
       distinct_on: $distinct_on
       limit: $limit
@@ -1838,6 +1880,7 @@ export const SearchPostsByLocationDocument = /*#__PURE__*/ gql`
       id
       lat
       lng
+      group
     }
   }
 `
@@ -1850,6 +1893,43 @@ export function useSearchPostsByLocationQuery(
 ) {
   return Urql.useQuery<SearchPostsByLocationQuery>({
     query: SearchPostsByLocationDocument,
+    ...options,
+  })
+}
+export const SearchPostsByLocationDetailedDocument = /*#__PURE__*/ gql`
+  query SearchPostsByLocationDetailed(
+    $distinct_on: [posts_select_column!]
+    $limit: Int
+    $offset: Int
+    $order_by: [posts_order_by!]
+    $where: posts_bool_exp
+  ) {
+    posts(
+      distinct_on: $distinct_on
+      limit: $limit
+      offset: $offset
+      order_by: $order_by
+      where: $where
+    ) {
+      id
+      address
+      group
+      message
+      emergency
+      uid
+      status
+    }
+  }
+`
+
+export function useSearchPostsByLocationDetailedQuery(
+  options?: Omit<
+    Urql.UseQueryArgs<SearchPostsByLocationDetailedQueryVariables>,
+    'query'
+  >
+) {
+  return Urql.useQuery<SearchPostsByLocationDetailedQuery>({
+    query: SearchPostsByLocationDetailedDocument,
     ...options,
   })
 }

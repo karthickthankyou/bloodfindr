@@ -4,34 +4,58 @@ import { Controller, useFormContext } from 'react-hook-form'
 import Label from 'src/components/atoms/HtmlLabel'
 import TextArea from 'src/components/atoms/HtmlTextArea'
 import { RadioGroup, Switch } from '@headlessui/react'
-import dynamic from 'next/dynamic'
 import Button from 'src/components/atoms/Button'
 import { selectUid } from 'src/store/user/userSlice'
+import { Marker } from 'react-map-gl'
+import PinSolid from '@heroicons/react/solid/LocationMarkerIcon'
+import PinOutline from '@heroicons/react/outline/LocationMarkerIcon'
 import FormSection, {
   FormSectionTitle,
 } from 'src/components/organisms/FormSection/FormSection'
+import Mapbox from 'src/components/organisms/HomeMapBox'
+import {
+  Fetching,
+  Panel,
+  PanelContainer,
+  Error,
+} from 'src/components/organisms/MapboxContent/MapboxContent'
+import ZoomControls from 'src/components/organisms/ZoomControls'
 import { useInsertPostMutation } from 'src/generated/graphql'
-import { useAppSelector } from 'src/store'
+import { useAppDispatch, useAppSelector } from 'src/store'
 import { BLOOD_GROUPS_EXPAND } from 'src/util/static'
-import { LatLngTuple } from 'leaflet'
+import { MapProvider } from 'src/store/map/mapContext'
+import { useEffect, useState } from 'react'
+import { MapControlAction } from 'src/components/organisms/ZoomControls/ZoomControls'
+import { selectViewport, setViewport } from 'src/store/map/mapSlice'
+import { useRouter } from 'next/router'
+import { setOffset } from 'src/store/post/postSlice'
 
 export interface INewPostTemplateProps {}
-
-const MapComponent = dynamic(() => import('./Map'), {
-  ssr: false,
-})
-const defaultPosition = [51.505, -0.09] as LatLngTuple
 
 const NewPostTemplate = () => {
   const {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
   } = useFormContext()
 
-  const [, addNewRequirement] = useInsertPostMutation()
+  const [postCreated, addNewRequirement] = useInsertPostMutation()
   const uid = useAppSelector(selectUid)
+
+  const dispatch = useAppDispatch()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (postCreated.data) {
+      const lat = postCreated.data?.insert_posts_one?.lat || 0
+      const lng = postCreated.data?.insert_posts_one?.lng || 0
+      dispatch(setOffset(0))
+      dispatch(setViewport({ latitude: lat, longitude: lng, zoom: 14 }))
+      router.push('/')
+    }
+  }, [dispatch, postCreated.data, router])
 
   const onSubmit = handleSubmit(async (data) => {
     const { acceptTerms, verified, group, ...rem } = data
@@ -39,6 +63,12 @@ const NewPostTemplate = () => {
       BLOOD_GROUPS_EXPAND[group as keyof typeof BLOOD_GROUPS_EXPAND]
     addNewRequirement({ object: { ...rem, group: updatedGroup, uid } })
   })
+
+  const viewport = useAppSelector(selectViewport)
+  const [marker, setMarker] = useState(() => ({
+    lat: viewport.latitude,
+    lng: viewport.longitude,
+  }))
 
   return (
     <form onSubmit={onSubmit} className='mb-8 '>
@@ -145,7 +175,57 @@ const NewPostTemplate = () => {
             title='Location'
             error={errors.lat || errors.lng}
           >
-            <MapComponent lat={defaultPosition[0]} lng={defaultPosition[1]} />
+            <MapProvider className='h-128'>
+              <Mapbox>
+                <Marker
+                  offsetTop={-10}
+                  offsetLeft={-10}
+                  longitude={marker.lng}
+                  latitude={marker.lat}
+                  draggable
+                  // onDragStart={onMarkerDragStart}
+                  onDrag={(event: { lngLat: [number, number] }) => {
+                    setMarker({
+                      lng: event.lngLat[0],
+                      lat: event.lngLat[1],
+                    })
+                  }}
+                  onDragEnd={(event) => {
+                    const [lng, lat] = event.lngLat
+                    setMarker({ lat, lng })
+                    setValue('lat', lat)
+                    setValue('lng', lng)
+                  }}
+                >
+                  <PinSolid className='w-6 h-6' />
+                </Marker>
+                <PanelContainer>
+                  <Panel position='center-bottom'>
+                    <Fetching />
+                    <Error />
+                  </Panel>
+
+                  <Panel position='right-center'>
+                    <ZoomControls>
+                      <ZoomControls.ZoomIn />
+                      <ZoomControls.ZoomOut />
+                      <ZoomControls.CurrentLocation />
+                      <MapControlAction
+                        placement='left'
+                        title='Bring marker to map center'
+                        Icon={PinOutline}
+                        action={() =>
+                          setMarker({
+                            lat: viewport.latitude,
+                            lng: viewport.longitude,
+                          })
+                        }
+                      />
+                    </ZoomControls>
+                  </Panel>
+                </PanelContainer>
+              </Mapbox>
+            </MapProvider>
           </Label>
           <Label
             className='col-span-2'

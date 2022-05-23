@@ -29,3 +29,5 @@ export const BLOOD_GROUPS_EXPAND = {
   'AB+': Blood_Groups_Enum.AbPositive,
   'AB-': Blood_Groups_Enum.AbNegative,
 } as const
+
+export const RESULT_LIMIT = 2

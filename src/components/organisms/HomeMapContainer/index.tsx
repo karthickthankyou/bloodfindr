@@ -7,7 +7,6 @@ import MinusIcon from '@heroicons/react/solid/MinusIcon'
 import LocationMarkerIcon from '@heroicons/react/solid/LocationMarkerIcon'
 import MapListener from 'src/components/organisms/MapListener'
 import NavButton from 'src/components/templates/NavButton/NavButton'
-import { useSearchPostsByLocationQuery } from 'src/generated/graphql'
 import MapPanel from '../MapPanel'
 import RoutineMachine from './Directions'
 
@@ -17,13 +16,6 @@ const Map = dynamic(() => import('src/components/organisms/Map'), {
 
 export interface IMapContainerProps {
   className?: string
-}
-
-export const useFetchHomesMap = () => {
-  const [{ data, fetching, error, stale }] = useSearchPostsByLocationQuery({
-    variables: { where: {} },
-  })
-  return { data, fetching, error, stale }
 }
 
 const MapContainerComponent = ({
